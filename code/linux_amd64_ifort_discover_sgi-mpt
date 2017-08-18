@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# $Header: /home/ubuntu/mnt/e9_copy/MITgcm/tools/build_options/linux_amd64_ifort_discover,v 1.1 2014/02/27 16:24:18 dimitri Exp $
+# $Name:  $
+
+# new optfile by Ryan Abernathey for use on NCCS Discover
+# $ module load comp/intel-17.0.2.174 mpi/sgi-mpt-2.15
+# sets the following environemnt variable
+# MPI_ROOT=/usr/local/sgi/mpi/mpt-2.1
+
+# For compatibility with Dimitris pleaides run
+# PLEAIDES module load comp-intel/2016.2.181 mpi-sgi/mpt.2.15r20
+# closest thing on discover
+# module load comp/intel-16.0.2.181 mpi/sgi-mpt-2.15
+
+if test "x$MPI" = xtrue ; then
+  FC=mpif90
+  CC=mpicc
+else
+  FC=ifort
+  CC=icc
+fi
+
+DEFINES='-DWORDLENGTH=4'
+CPP='/lib/cpp  -traditional -P'
+EXTENDED_SRC_FLAG='-132'
+OMPFLAG='-qopenmp'
+CFLAGS='-fPIC'
+LDADD='-shared-intel'
+
+LIBS="-L$MPI_ROOT/lib"
+INCLUDES="-I$MPI_ROOT/include"
+INCLUDEDIRS="$MPI_ROOT/include"
+MPIINCLUDEDIR="$MPI_ROOT/include"
+
+NOOPTFLAGS='-O0 -fPIC'
+
+if test "x$IEEE" = x ; then
+    FFLAGS="$FFLAGS -fPIC -W0 -WB -convert big_endian -assume byterecl -align"
+    FOPTIM='-O2 -ipo -fp-model precise -axCORE-AVX2 -xSSE4.2 -traceback -ftz'
+    NOOPTFILES='seaice_growth.F calc_oce_mxlayer.F fizhi_lsm.F fizhi_clockstuff.F ini_parms.F'
+else
+    #  Try to follow IEEE-754
+    FFLAGS="$FFLAGS -fPIC -w95 -W0 -WB -convert big_endian -assume byterecl -noalign"
+    FOPTIM='-O0'
+fi
+#- might want to use '-r8' for fizhi pkg:
+#FFLAGS="$FFLAGS -r8"
+
+#- For really big executable (> 2 GB), uncomment following 2 lines
+FFLAGS="$FFLAGS -mcmodel=medium -shared-intel"
+CFLAGS="$CFLAGS -mcmodel=medium -shared-intel"
