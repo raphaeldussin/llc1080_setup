@@ -12,7 +12,7 @@ optfile = linux_amd64_ifort_discover_sgi-mpt
 # where to put the binary files
 bin_dir = /discover/nobackup/rpaberna/llc_1080/bin_files
 forcing_dir = /discover/nobackup/rpaberna/llc_1080/ECMWF_operational/NEW
-pickup_dir = /discover/nobackup/rpaberna/llc_1080/pickup/run_2011
+pickup_dir = /discover/nobackup/rpaberna/llc_1080/pickup/run_year1
 # where to run the model
 run_dir = /discover/nobackup/rpaberna/llc_1080_new
 ### end platform specific options
@@ -56,3 +56,4 @@ run_% : input_% $(mitgcmuv)
 	mv $(target_dir)/data.exch2_$(tile_size) $(target_dir)/data.exch2
 	# TODO: translate timestep of pickup to timestep of model
 	cp scripts/* $(target_dir)
+
