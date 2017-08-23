@@ -11,30 +11,18 @@ endef
 optfile = linux_amd64_ifort_discover_sgi-mpt
 # where to put the binary files
 bin_dir = /discover/nobackup/rpaberna/llc_1080/bin_files
+forcing_dir = /discover/nobackup/rpaberna/llc_1080/ECMWF_operational/NEW
+pickup_dir = /discover/nobackup/rpaberna/llc_1080/pickup/run_2011
+# where to run the model
+run_dir = /discover/nobackup/rpaberna/llc_1080_new
 ### end platform specific options
 
 mitgcm_dir = MITgcm_$(mitgcm_checkpoint)
 build_dir = build_$(mitgcm_checkpoint)_$(tile_size)
 mitgcmuv = $(build_dir)/mitgcmuv
 
+# hack to refer to the main directory where the makefile lives
 base_dir := $(shell pwd)
-
-#bin_files = $(bin_dir)/bathy1080_g5_r4 \ 
-#  $(bin_dir)/Jan2010_SALT_1080x14040x50_r4 \
-#  $(bin_dir)/Jan2010_SALT_1080x14040x90_r4 \
-#  $(bin_dir)/Jan2010_SIarea_1080x14040_r4 \
-#  $(bin_dir)/Jan2010_SIheff_1080x14040_r4 \
-#  $(bin_dir)/Jan2010_SIhsalt_1080x14040_r4 \
-#  $(bin_dir)/Jan2010_SIhsnow_1080x14040_r4 \
-#  $(bin_dir)/Jan2010_THETA_1080x14040x50_r4 \
-#  $(bin_dir)/Jan2010_THETA_1080x14040x90_r4 \
-#  $(bin_dir)/runoff1p2472-360x180x12.bin \
-#  $(bin_dir)/tile001.mitgrid \
-#  $(bin_dir)/tile002.mitgrid \
-#  $(bin_dir)/tile003.mitgrid \
-#  $(bin_dir)/tile004.mitgrid \
-#  $(bin_dir)/tile005.mitgrid \
-#  $(bin_dir)/tile006.mitgrid 
 
 $(mitgcm_dir) :
 	cvs co -P -r checkpoint$(mitgcm_checkpoint) MITgcm_code
@@ -44,7 +32,7 @@ $(mitgcmuv) : $(mitgcm_dir)
 	mkdir -p $(build_dir) && \
 	  cd $(build_dir) && \
 	  $(module_cmd) && \
-	  cp ../code/SIZE.h_90x90x1342 SIZE.h && \
+	  cp ../code/SIZE.h_$(tile_size) SIZE.h && \
 	  ../$(mitgcm_dir)/tools/genmake2 -rootdir ../$(mitgcm_dir) -of ../code/$(optfile) -mpi -mods ../code && \
 	  make depend && \
 	  make -j8
@@ -52,5 +40,19 @@ $(mitgcmuv) : $(mitgcm_dir)
 mitgcmuv : $(mitgcmuv)
 
 check_bin_files :
-	cd $(bin_dir); md5sum -c $(base_dir)/bin_files_md5sum.chk 
-		
+	cd $(bin_dir); md5sum -c $(base_dir)/bin_files.chk 
+	cd $(forcing_dir); md5sum -c $(base_dir)/ecmwf_operational.chk
+	cd $(pickup_dir); md5sum -c $(base_dir)/pickup.chk
+
+run_% : input_% $(mitgcmuv)
+	$(eval target_dir = $(run_dir)/$@)
+	mkdir -p $(target_dir)
+	ln -sf $(bin_dir)/* $(target_dir)
+	ln -sf $(forcing_dir)/* $(target_dir)
+	ln -sf $(pickup_dir)/* $(target_dir)
+	cp $(mitgcmuv) $(target_dir)
+	cp input/* $(target_dir)
+	cp $</* $(target_dir)
+	mv $(target_dir)/data.exch2_$(tile_size) $(target_dir)/data.exch2
+	# TODO: translate timestep of pickup to timestep of model
+	cp scripts/* $(target_dir)
