@@ -13,6 +13,8 @@ optfile = linux_amd64_ifort_discover_sgi-mpt
 bin_dir = /discover/nobackup/rpaberna/llc_1080/bin_files
 forcing_dir = /discover/nobackup/rpaberna/llc_1080/ECMWF_operational/NEW
 pickup_dir = /discover/nobackup/rpaberna/llc_1080/pickup/run_year1
+# seconds since 2010-01-1
+pickup_time = 37843200
 # where to run the model
 run_dir = /discover/nobackup/rpaberna/llc_1080_new
 ### end platform specific options
@@ -49,11 +51,13 @@ run_% : input_% $(mitgcmuv)
 	mkdir -p $(target_dir)
 	ln -sf $(bin_dir)/* $(target_dir)
 	ln -sf $(forcing_dir)/* $(target_dir)
-	ln -sf $(pickup_dir)/* $(target_dir)
 	cp $(mitgcmuv) $(target_dir)
 	cp input/* $(target_dir)
 	cp $</* $(target_dir)
 	mv $(target_dir)/data.exch2_$(tile_size) $(target_dir)/data.exch2
+	#ln -sf $(pickup_dir)/* $(target_dir)
+	# get the correct timestep for the pickup file
+	$(eval deltat := $(shell ../scripts/get_data_variable.sh $(target_dir)/data deltat ))
+	cp $(deltat) .
 	# TODO: translate timestep of pickup to timestep of model
 	cp scripts/* $(target_dir)
-

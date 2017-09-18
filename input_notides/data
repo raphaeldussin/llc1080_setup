@@ -79,16 +79,21 @@
 # Time stepping parameters
  &PARM03
  nIter0=157680,
- endtime=63072000.,
+# 31 days / 240 seconds
+ nTimeSteps=11160,
+# endtime=63072000.,
  deltaT = 240.,
  abEps = 0.1,
  forcing_In_AB=.FALSE.,
  momDissip_In_AB=.FALSE.,
- pChkptFreq  = 2592000.0,
- chkptFreq   = 259200.0,
- dumpfreq = 86400.,
+# 30 days - calendarDumps converts this to calendar months
+ chkptFreq = 259200.0,
+ taveFreq = 259200.0,
+# 5 days
+ dumpfreq = 432000.,
+# one hour
  monitorFreq = 3600.,
- dumpInitAndLast=.TRUE.,
+ dumpInitAndLast=.FALSE.,
  /
 
 # Gridding parameters

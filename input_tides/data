@@ -83,13 +83,19 @@
 # Time stepping parameters
  &PARM03
  nIter0=354240,
- endtime=63072000.,
+# 31 days / 90 seconds - make sure we finish all months
+ nTimeSteps=29760,
+# endtime=63072000.,
  deltaT = 90.,
  abEps = 0.1,
  forcing_In_AB=.FALSE.,
  momDissip_In_AB=.FALSE.,
- chkptFreq   = 259200.0,
- dumpfreq = 86400.,
+# 30 days - calendarDumps converts this to calendar months
+ chkptFreq = 259200.0,
+ taveFreq = 259200.0,
+# 5 days
+ dumpfreq = 432000.,
+# one hour
  monitorFreq = 3600.,
  dumpInitAndLast=.FALSE.,
  /
