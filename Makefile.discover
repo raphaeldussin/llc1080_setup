@@ -1,0 +1,19 @@
+SHELL:=/bin/bash
+
+# platform specific options...should be moved to config file
+mitgcm_checkpoint = 66h
+tile_size = 60x60x2872
+define module_cmd
+. /etc/profile.d/modules.sh && \
+module load comp/intel-17.0.2.174 mpi/sgi-mpt-2.15
+endef
+# optfile should reside in the code directory
+optfile = linux_amd64_ifort_discover_sgi-mpt
+# where to put the binary files
+bin_dir = /discover/nobackup/rpaberna/llc_1080/bin_files
+forcing_dir = /discover/nobackup/rpaberna/llc_1080/ECMWF_operational/NEW
+pickup_dir = /discover/nobackup/rpaberna/llc_1080/pickup/run_year1
+# seconds since 2010-01-1
+pickup_time = 37843200
+# where to run the model
+run_dir = /discover/nobackup/rpaberna/llc_1080_new
