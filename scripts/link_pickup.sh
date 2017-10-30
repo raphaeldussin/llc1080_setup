@@ -19,7 +19,9 @@ fi
 
 source_files=$( ls $source_directory/pickup*.data | grep $source_timestep )
 for f in $source_files; do
-	echo $f
 	target=$( basename $f | sed "s/$source_timestep/$target_timestep/" ) 
-	echo $target
+	f_meta=$( echo $f | sed "s/data/meta/" )
+	target_meta=$( echo $target | sed "s/data/meta/" )
+	ln -sv $f $target
+	ln -sv $f_meta $target_meta
 done
