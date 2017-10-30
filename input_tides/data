@@ -82,7 +82,7 @@
 
 # Time stepping parameters
  &PARM03
- nIter0=354240,
+ nIter0=420480,
 # 31 days / 90 seconds - make sure we finish all months
  nTimeSteps=29760,
 # endtime=63072000.,
