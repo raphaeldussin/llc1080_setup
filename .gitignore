@@ -1,3 +1,4 @@
 # ignore all MITgcm code directories
 MITgcm*/
 build*
+Makefile
