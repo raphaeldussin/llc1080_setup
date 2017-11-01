@@ -1,0 +1,22 @@
+# diagnostics file for spinup phase
+# no layers yet!
+
+# heat budget terms
+ &diagnostics_list
+  filename(1)   ='DiagGAD-T',
+  frequency(1)  =2628000.,
+  fields(1:12,1)='TOTTTEND','ADVr_TH ','ADVx_TH ','ADVy_TH ',
+                 'DFrE_TH ','DFxE_TH ','DFyE_TH ','DFrI_TH ',
+                 'UTHMASS ','VTHMASS ','WTHMASS ','THETA    ',
+  filename(2)   ='DiagGAD-S',
+  frequency(2)  =2628000.,
+  fields(1:12,2)='TOTSTEND','ADVr_SLT','ADVx_SLT','ADVy_SLT',
+                 'DFrE_SLT','DFxE_SLT','DFyE_SLT','DFrI_SLT',
+                 'USLTMASS','VSLTMASS','WSLTMASS','SALT    ',
+  filename(3)   ='DiagSurf',
+  frequency(3)  =2628000.,
+  fields(1:12,3)='SIarea  ','SIheff  ','SIhsnow ','SItflux ',
+                 'SIatmQnt','SIempmr ','SIatmFW ','SIuheff ',
+                 'SIvheff ','TFLUX   ','SFLUX   ','SIuice  ',
+ &DIAG_STATIS_PARMS
+ & 
