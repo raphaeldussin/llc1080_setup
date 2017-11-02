@@ -79,8 +79,8 @@
 # Time stepping parameters
  &PARM03
  nIter0=157680,
-# 31 days / 240 seconds
- nTimeSteps=11160,
+# 31 days / 240 seconds * 2
+ nTimeSteps=22320,
 # endtime=63072000.,
  deltaT = 240.,
  abEps = 0.1,

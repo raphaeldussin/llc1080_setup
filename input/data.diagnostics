@@ -18,5 +18,6 @@
   fields(1:12,3)='SIarea  ','SIheff  ','SIhsnow ','SItflux ',
                  'SIatmQnt','SIempmr ','SIatmFW ','SIuheff ',
                  'SIvheff ','TFLUX   ','SFLUX   ','SIuice  ',
+ &
  &DIAG_STATIS_PARMS
  & 
