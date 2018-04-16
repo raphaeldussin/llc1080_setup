@@ -18,9 +18,6 @@ LDADD='-shared-intel'
 
 LIBS="-L${MPI_ROOT}/lib"
 INCLUDES="-I${MPI_ROOT}/include"
-
-#CPPINCLUDES=dd$INC_NCAR
-
 NOOPTFLAGS='-O0 -fPIC'
 
 FFLAGS="-fPIC -convert big_endian -assume byterecl -align -march=corei7 -axAVX"
