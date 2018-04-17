@@ -1,6 +1,8 @@
 SHELL:=/bin/bash
 
 # platform specific options...should be moved to config file
+# MITgcm moving away from CVS, made copy of rev 66h here:
+mitgcm_dir=$(HOME)/MODELS/MITgcm_CVS_rev_66h
 mitgcm_checkpoint = 66h
 tile_size = 60x60x2872
 define module_cmd
@@ -10,10 +12,10 @@ endef
 # optfile should reside in the code directory
 optfile = linux_amd64_ifort+mpi_cheyenne
 # where to put the binary files
-bin_dir = /glade/scratch/rpa/llc_1080/bin_files
-forcing_dir = /glade/scratch/rpa/ECMWF_operational/NEW
-pickup_dir = /glade/scratch/rpa/llc_1080/pickup/run_year1
+#bin_dir = /glade/scratch/rpa/llc_1080/bin_files
+#forcing_dir = /glade/scratch/rpa/ECMWF_operational/NEW
+#pickup_dir = /glade/scratch/rpa/llc_1080/pickup/run_year1
 # seconds since 2010-01-1
-pickup_time = 37843200
+#pickup_time = 37843200
 # where to run the model
-run_dir = /glade/scratch/rpa/llc_1080
+run_dir = $(SCRATCH)/RUNS_MITgcm/llc_1080

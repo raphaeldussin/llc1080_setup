@@ -1,20 +1,21 @@
-mitgcm_dir = MITgcm_$(mitgcm_checkpoint)
-build_dir = build_$(mitgcm_checkpoint)_$(tile_size)
+include Makefile.cheyenne
+
+build_dir = $(run_dir)/build_$(mitgcm_checkpoint)_$(tile_size)
 mitgcmuv = $(build_dir)/mitgcmuv
 
 # hack to refer to the main directory where the makefile lives
 base_dir := $(shell pwd)
 
-$(mitgcm_dir) :
-	cvs co -P -r checkpoint$(mitgcm_checkpoint) MITgcm_code
-	mv MITgcm $(mitgcm_dir)
+#$(mitgcm_dir) :
+#	cvs co -P -r checkpoint$(mitgcm_checkpoint) MITgcm_code
+#	mv MITgcm $(mitgcm_dir)
 
 $(mitgcmuv) : $(mitgcm_dir)
 	mkdir -p $(build_dir) && \
 	  cd $(build_dir) && \
 	  $(module_cmd) && \
-	  cp ../code/SIZE.h_$(tile_size) SIZE.h && \
-	  ../$(mitgcm_dir)/tools/genmake2 -rootdir ../$(mitgcm_dir) -of ../code/$(optfile) -mpi -mods ../code && \
+	  cp $(base_dir)/code/SIZE.h_$(tile_size) SIZE.h && \
+	  $(mitgcm_dir)/tools/genmake2 -rootdir $(mitgcm_dir) -of $(base_dir)/code/$(optfile) -mpi -mods $(base_dir)/code && \
 	  make depend && \
 	  make -j8
 
