@@ -20,10 +20,11 @@ LIBS="-L${MPI_ROOT}/lib"
 INCLUDES="-I${MPI_ROOT}/include"
 NOOPTFLAGS='-O0 -fPIC'
 
-FFLAGS="-fPIC -convert big_endian -assume byterecl -align -xCORE-AVX2"
+#FFLAGS="-fPIC -convert big_endian -assume byterecl -align -xCORE-AVX2" # 4% slower with -O2
+FFLAGS="-fPIC -convert big_endian -assume byterecl -align"
 FDEBUG='-W0 -WB'
 FFLAGS="$FDEBUG $FFLAGS"
 
-FOPTIM='-O3'
+FOPTIM='-O2'
 FOPTIM="$FOPTIM -ip -fp-model precise -traceback -ftz"
 
